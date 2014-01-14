@@ -29,14 +29,6 @@ type Worker struct {
 	Functions []string
 }
 
-func mustAtoi(s string) int {
-	num, err := strconv.Atoi(s)
-	if err != nil {
-		panic(err)
-	}
-	return num
-}
-
 // Status returns the status of all function queues.
 func (ga GearmanAdmin) Status() ([]Status, error) {
 	var statuses []Status
@@ -47,11 +39,23 @@ func (ga GearmanAdmin) Status() ([]Status, error) {
 		if len(toks) != 4 {
 			return statuses, fmt.Errorf("unexpected status: '%s'", scanner.Text())
 		}
+		total, err := strconv.Atoi(toks[1])
+		if err != nil {
+			return statuses, fmt.Errorf("could not parse total: '%s'", scanner.Text())
+		}
+		running, err := strconv.Atoi(toks[2])
+		if err != nil {
+			return statuses, fmt.Errorf("could not parse running: '%s'", scanner.Text())
+		}
+		available, err := strconv.Atoi(toks[3])
+		if err != nil {
+			return statuses, fmt.Errorf("could not parse available: '%s'", scanner.Text())
+		}
 		statuses = append(statuses, Status{
 			Function:         toks[0],
-			Total:            mustAtoi(toks[1]),
-			Running:          mustAtoi(toks[2]),
-			AvailableWorkers: mustAtoi(toks[3]),
+			Total:            total,
+			Running:          running,
+			AvailableWorkers: available,
 		})
 	}
 	return statuses, scanner.Err()
