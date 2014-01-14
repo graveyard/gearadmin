@@ -37,7 +37,8 @@ func TestStatus(t *testing.T) {
 	mockGearmand := MockGearmand{}
 	defer mockGearmand.Close()
 	mockGearmand.Responses = map[string]string{
-		"status": `fn	3	2	1
+		"status": `fn1	3	2	1
+fn2	0	1	2
 .`,
 	}
 	ga := GearmanAdmin{&mockGearmand}
@@ -45,21 +46,25 @@ func TestStatus(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(statuses) != 1 {
-		t.Fatalf("Expected one status")
+	if len(statuses) != 2 {
+		t.Fatalf("Expected two statuses")
 	}
-	if statuses[0].Function != "fn" {
-		t.Fatalf("Incorrect function: expected 'fn', got '%s'", statuses[0].Function)
+	checkStatus := func(status Status, fn string, total, running, available int) {
+		if status.Function != fn {
+			t.Fatalf("Incorrect function: expected '%s', got '%s'", fn, status.Function)
+		}
+		if status.Total != total {
+			t.Fatalf("Incorrect total: expected %d, got %d", total, status.Total)
+		}
+		if status.Running != running {
+			t.Fatalf("Incorrect running: expected %d, got %d", running, status.Running)
+		}
+		if status.AvailableWorkers != available {
+			t.Fatalf("Incorrect running: expected %d, got %d", available, status.AvailableWorkers)
+		}
 	}
-	if statuses[0].Total != 3 {
-		t.Fatalf("Incorrect total: expected 3, got '%d'", statuses[0].Total)
-	}
-	if statuses[0].Running != 2 {
-		t.Fatalf("Incorrect running: expected 2, got '%d'", statuses[0].Running)
-	}
-	if statuses[0].AvailableWorkers != 1 {
-		t.Fatalf("Incorrect running: expected 1, got '%d'", statuses[0].AvailableWorkers)
-	}
+	checkStatus(statuses[0], "fn1", 3, 2, 1)
+	checkStatus(statuses[1], "fn2", 0, 1, 2)
 }
 
 func TestWorkers(t *testing.T) {
