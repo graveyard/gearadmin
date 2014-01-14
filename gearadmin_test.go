@@ -7,8 +7,7 @@ import (
 	"testing"
 )
 
-// MockGearmand implements io.ReadWriteCloser and can be used in place of an actual
-// connection to gearmand.
+// MockGearmand implements io.ReadWriter and can be used in place of an actual connection to gearmand.
 type MockGearmand struct {
 	buf       bytes.Buffer
 	Responses map[string]string
@@ -29,13 +28,8 @@ func (mg *MockGearmand) Write(p []byte) (int, error) {
 	return len(p), nil
 }
 
-func (mg *MockGearmand) Close() error {
-	return nil
-}
-
 func TestStatus(t *testing.T) {
 	mockGearmand := MockGearmand{}
-	defer mockGearmand.Close()
 	mockGearmand.Responses = map[string]string{
 		"status": `fn1	3	2	1
 fn2	0	1	2
@@ -69,7 +63,6 @@ fn2	0	1	2
 
 func TestWorkers(t *testing.T) {
 	mockGearmand := MockGearmand{}
-	defer mockGearmand.Close()
 	mockGearmand.Responses = map[string]string{
 		"workers": `74 10.0.1.167 - :
 284 10.0.2.16 - : fn1

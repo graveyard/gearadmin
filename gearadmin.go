@@ -10,7 +10,12 @@ import (
 
 // GearmanAdmin communicates with a gearman server.
 type GearmanAdmin struct {
-	Conn io.ReadWriter
+	conn io.ReadWriter
+}
+
+// NewGearmanAdmin takes in a connection and returns an object that interacts with gearman's admin protocol.
+func NewGearmanAdmin(connection io.ReadWriter) GearmanAdmin {
+	return GearmanAdmin{conn: connection}
 }
 
 // Status represents the status of a queue for a function as returned by the "status" command.
@@ -32,8 +37,8 @@ type Worker struct {
 // Status returns the status of all function queues.
 func (ga GearmanAdmin) Status() ([]Status, error) {
 	var statuses []Status
-	fmt.Fprintf(ga.Conn, "status\n")
-	scanner := bufio.NewScanner(ga.Conn)
+	fmt.Fprintf(ga.conn, "status\n")
+	scanner := bufio.NewScanner(ga.conn)
 	for scanner.Scan() && scanner.Text() != "." {
 		toks := strings.Split(scanner.Text(), "\t")
 		if len(toks) != 4 {
@@ -64,8 +69,8 @@ func (ga GearmanAdmin) Status() ([]Status, error) {
 // Workers returns a summary of workers connected to gearman.
 func (ga GearmanAdmin) Workers() ([]Worker, error) {
 	var workers []Worker
-	fmt.Fprintf(ga.Conn, "workers\n")
-	scanner := bufio.NewScanner(ga.Conn)
+	fmt.Fprintf(ga.conn, "workers\n")
+	scanner := bufio.NewScanner(ga.conn)
 	for scanner.Scan() && scanner.Text() != "." {
 		toks := strings.Split(scanner.Text(), " ")
 		if len(toks) < 4 {
