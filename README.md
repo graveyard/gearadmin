@@ -18,7 +18,7 @@ Make sure your GOPATH is set, e.g. `export GOPATH=~/go`.
 The tests run `golint` automatically, so install that with `go get github.com/golang/lint/golint`.
 Clone the repository to a location outside your GOPATH, and symlink it to `$GOPATH/src/github.com/Clever/gearadmin`.
 If you have [gvm](https://github.com/moovweb/gvm) installed, you can make this symlink by running the following from the root of where you have cloned the repository: `gvm linkthis github.com/Clever/gearadmin`.
-The reason for making this symlink is that the Makefile runs commands by specifying the full package name, e.g. `go test github.com/Clever/gearadmin` or `go test -cover -coverprofile=$(GOPATH)/src/github.com/Clever/gearadmin/c.out github.com/Clever/gearadmin -test.v`.
+The reason for making this symlink is that the Makefile runs commands by specifying the full package name, e.g. `go test github.com/Clever/gearadmin`.
 Running `go ...` commands specifying the full package name eliminates a lot of the complexity of running these tools specifying a relative path.
 
 If you have done all of the above, then you should be able to run
