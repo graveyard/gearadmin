@@ -3,7 +3,7 @@
 //
 // Usage
 //
-// Here's an example program that tails all operations starting from the time the program is launched:
+// Here's an example program that outputs the status of all worker queues in gearman:
 //
 //         package main
 //
