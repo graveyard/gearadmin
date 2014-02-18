@@ -8,7 +8,9 @@ PKGS = $(PKG) $(SUBPKGS)
 test: $(PKG)
 
 $(PKG):
+ifeq ($(LINT),1)
 	golint $(GOPATH)/src/$@*/**.go
+endif
 	go get -d -t $@
 ifeq ($(COVERAGE),1)
 	go test -cover -coverprofile=$(GOPATH)/src/$@/c.out $@ -test.v
