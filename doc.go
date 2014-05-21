@@ -19,8 +19,8 @@
 //         		panic(err)
 //         	}
 //         	defer c.Close()
-//         	gearadmin := gearadmin.NewGearmanAdmin(c)
-//         	status, _ := gearadmin.Status()
+//         	admin := gearadmin.NewGearmanAdmin(c)
+//         	status, _ := admin.Status()
 //         	fmt.Printf("%#v\n", status)
 //         }
 package gearadmin
