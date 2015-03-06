@@ -7,6 +7,9 @@ PKGS = $(PKG) $(SUBPKGS)
 
 test: $(PKG)
 
+build:
+	go build github.com/Clever/gearadmin/cmd/gearlogger
+
 $(PKG):
 ifeq ($(LINT),1)
 	golint $(GOPATH)/src/$@*/**.go
