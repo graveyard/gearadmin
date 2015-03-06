@@ -20,6 +20,7 @@ func logMetrics(g gearadmin.GearmanAdmin) {
 	}
 	for _, status := range statuses {
 		fmt.Println(kayvee.FormatLog("gearlogger", "info", "status", map[string]interface{}{
+			"type":     "gauge",
 			"function": status.Function,
 			"running":  status.Running,
 			"total":    status.Total,
