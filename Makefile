@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 PKG = github.com/Clever/gearadmin
-SUBPKGS =
+SUBPKGS = github.com/Clever/gearadmin/cmd/gearlogger
 PKGS = $(PKG) $(SUBPKGS)
 
 .PHONY: test $(PKGS)
