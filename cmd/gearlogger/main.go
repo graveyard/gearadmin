@@ -34,13 +34,11 @@ func main() {
 	interval := flag.Duration("interval", time.Minute, "interval to log at")
 	flag.Parse()
 
-	var gearmand *url.URL
-	var err error
+	h := *host
 	if os.Getenv("GEARMAN_HOST") != "" {
-		gearmand, err = url.Parse(os.Getenv("GEARMAN_HOST"))
-	} else {
-		gearmand, err = url.Parse(*host)
+		h = os.Getenv("GEARMAN_HOST")
 	}
+	gearmand, err := url.Parse(h)
 
 	if err != nil {
 		log.Fatalf("error parsing gearman url %s: %s", *host, err)
