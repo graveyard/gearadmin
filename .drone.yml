@@ -14,7 +14,7 @@ notify:
     on_failure: true
 publish:
   docker:
-    branch: gearlogger
+    branch: master
     docker_port: 4243
     docker_server: {{docker_server}}
     docker_version: 1.2.0
