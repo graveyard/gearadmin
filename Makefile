@@ -1,13 +1,16 @@
 SHELL := /bin/bash
 PKG = github.com/Clever/gearadmin
-SUBPKGS =
+SUBPKGS = github.com/Clever/gearadmin/cmd/gearlogger
 PKGS = $(PKG) $(SUBPKGS)
 
 .PHONY: test $(PKGS)
 
-test: $(PKG)
+test: $(PKGS)
 
-$(PKG):
+build:
+	go build github.com/Clever/gearadmin/cmd/gearlogger
+
+$(PKGS):
 ifeq ($(LINT),1)
 	golint $(GOPATH)/src/$@*/**.go
 endif

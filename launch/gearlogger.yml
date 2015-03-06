@@ -1,0 +1,6 @@
+run:
+  type: docker
+env:
+  - GEARMAN_HOST
+resources:
+  cpu: 0.1
