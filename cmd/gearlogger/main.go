@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/Clever/gearadmin"
@@ -32,12 +33,19 @@ func main() {
 	interval := flag.Duration("interval", time.Minute, "interval to log at")
 	flag.Parse()
 
-	url, err := url.Parse(*host)
+	var gearmand *url.URL
+	var err error
+	if os.Getenv("GEARMAN_HOST") != "" {
+		gearmand, err = url.Parse(os.Getenv("GEARMAN_HOST"))
+	} else {
+		gearmand, err = url.Parse(*host)
+	}
+
 	if err != nil {
 		log.Fatalf("error parsing gearman url %s: %s", *host, err)
 	}
 
-	conn, err := net.Dial(url.Scheme, url.Host)
+	conn, err := net.Dial(gearmand.Scheme, gearmand.Host)
 	if err != nil {
 		log.Fatalf("error connecting to gearman: %s", err)
 	}
