@@ -5,12 +5,12 @@ PKGS = $(PKG) $(SUBPKGS)
 
 .PHONY: test $(PKGS)
 
-test: $(PKG)
+test: $(PKGS)
 
 build:
 	go build github.com/Clever/gearadmin/cmd/gearlogger
 
-$(PKG):
+$(PKGS):
 ifeq ($(LINT),1)
 	golint $(GOPATH)/src/$@*/**.go
 endif
