@@ -5,8 +5,12 @@ include golang.mk
 SHELL := /bin/bash
 PKG = github.com/Clever/gearadmin
 PKGS = $(shell go list ./...)
-$(eval $(call golang-version-check,1.8))
+$(eval $(call golang-version-check,1.9))
 
 test: $(PKGS)
 $(PKGS): golang-test-all-deps
 	$(call golang-test-all,$@)
+
+
+install_deps: golang-dep-vendor-deps
+	$(call golang-dep-vendor)
