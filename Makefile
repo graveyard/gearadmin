@@ -5,7 +5,7 @@ include golang.mk
 SHELL := /bin/bash
 PKG = github.com/Clever/gearadmin
 PKGS = $(shell go list ./...)
-$(eval $(call golang-version-check,1.10))
+$(eval $(call golang-version-check,1.12))
 
 test: $(PKGS)
 $(PKGS): golang-test-all-deps
